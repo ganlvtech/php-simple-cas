@@ -35,6 +35,10 @@ class PhpCas
      * @var string ticket
      */
     private $ticket = '';
+    /**
+     * @var string CAS response
+     */
+    private $text_response = '';
 
     /**
      * PhpCas constructor.
@@ -100,12 +104,12 @@ class PhpCas
     public function getUser($service = null, $ticket = null)
     {
         $this->service = $service ?: self::getDefaultService();
-        $this->ticket = $ticket ?: $this->getTicket('ticket');
-        $xml_return = file_get_contents($this->server['service_validate_url'] . '?' . http_build_query(array(
+        $this->ticket = $ticket ?: $this->getTicket();
+        $this->text_response = file_get_contents($this->server['service_validate_url'] . '?' . http_build_query(array(
                 'service' => $this->service,
                 'ticket' => $this->ticket,
             )));
-        if (1 !== preg_match('@<cas:user>(.*)</cas:user>@', $xml_return, $matches)) {
+        if (1 !== preg_match('@<cas:user>(.*)</cas:user>@', $this->text_response, $matches)) {
             return false;
         }
         return $matches[1];
