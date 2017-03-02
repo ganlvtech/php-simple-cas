@@ -94,33 +94,6 @@ class PhpCas
     }
 
     /**
-     *
-     * @return string
-     */
-    public function getTextResponse()
-    {
-        return $this->text_response;
-    }
-
-    /**
-     * Send GET request
-     *
-     * @param string $url URL
-     * @param int $timeout Timeout(seconds)
-     *
-     * @return string Text response
-     */
-    public static function file_get_contents($url, $timeout)
-    {
-        $opts = array(
-            'http' => array(
-                'timeout' => $timeout,
-            ),
-        );
-        return file_get_contents($url, false, stream_context_create($opts));
-    }
-
-    /**
      * Get username
      *
      * @param string|null $service service name
@@ -154,6 +127,24 @@ class PhpCas
     }
 
     /**
+     * Send GET request
+     *
+     * @param string $url URL
+     * @param int $timeout Timeout(seconds)
+     *
+     * @return string Text response
+     */
+    public static function file_get_contents($url, $timeout)
+    {
+        $opts = array(
+            'http' => array(
+                'timeout' => $timeout,
+            ),
+        );
+        return file_get_contents($url, false, stream_context_create($opts));
+    }
+
+    /**
      * Redirect to CAS login url
      *
      * @param string|null $service service name
@@ -175,6 +166,15 @@ class PhpCas
     {
         header('Location: ' . $url, true, 302);
         exit;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getTextResponse()
+    {
+        return $this->text_response;
     }
 
     /**
