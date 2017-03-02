@@ -131,7 +131,7 @@ class PhpCas
      */
     public static function getDefaultService()
     {
-        return (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'];
+        return (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['SERVER_NAME'] . strtok($_SERVER['REQUEST_URI'], '?');
     }
 
     /**
