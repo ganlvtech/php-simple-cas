@@ -66,10 +66,10 @@ class PhpCas
      *
      * @return string username
      */
-    public function getUserOrRedirect($service = null, $key = 'ticket')
+    public function getUserOrRedirect($service = null, $key = 'ticket', $timeout = 10)
     {
         $ticket = $this->getTicket($key);
-        if (!$ticket || !$user = $this->getUser($service, $ticket)) {
+        if (!$ticket || !$user = $this->getUser($service, $ticket, $timeout)) {
             $this->login($service);
             return false;
         }
@@ -103,21 +103,40 @@ class PhpCas
     }
 
     /**
+     * Send GET request
+     *
+     * @param string $url URL
+     * @param int $timeout Timeout(seconds)
+     *
+     * @return string Text response
+     */
+    public static function file_get_contents($url, $timeout)
+    {
+        $opts = array(
+            'http' => array(
+                'timeout' => $timeout,
+            ),
+        );
+        return file_get_contents($url, false, stream_context_create($opts));
+    }
+
+    /**
      * Get username
      *
      * @param string|null $service service name
      * @param string|null $ticket ticket
+     * @param int $timeout Timeout(seconds)
      *
-     * @return string|bool username
+     * @return bool|string username
      */
-    public function getUser($service = null, $ticket = null)
+    public function getUser($service = null, $ticket = null, $timeout = 10)
     {
         $service = $service ?: self::getDefaultService();
         $this->ticket = $ticket ?: $this->getTicket();
-        $this->text_response = file_get_contents($this->server['service_validate_url'] . '?' . http_build_query(array(
+        $this->text_response = self::file_get_contents($this->server['service_validate_url'] . '?' . http_build_query(array(
                 'service' => $service,
                 'ticket' => $this->ticket,
-            )));
+            )), $timeout);
         if (1 !== preg_match('@<cas:user>(.*)</cas:user>@', $this->text_response, $matches)) {
             return false;
         }

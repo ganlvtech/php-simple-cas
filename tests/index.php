@@ -10,6 +10,7 @@ if (isset($_GET['logout'])) {
 }
 
 $user = $phpCas->getUserOrRedirect();
+// $user = $phpCas->getUserOrRedirect(null, 'ticket', 5);
 $ticket = $phpCas->getTicket();
 var_dump($user);
 var_dump($ticket);

@@ -14,7 +14,7 @@ composer require ganlvtech/php-simple-cas
 <?php
 use PhpSimpleCas\PhpCas;
 
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 
 $phpCas = new PhpCas('https://cas.xjtu.edu.cn/');
 
@@ -23,6 +23,7 @@ if (isset($_GET['logout'])) {
 }
 
 $user = $phpCas->getUserOrRedirect();
+// $user = $phpCas->getUserOrRedirect(null, 'ticket', 5); // The last parameter is timeout(seconds).
 $ticket = $phpCas->getTicket();
 var_dump($user);
 var_dump($ticket);
