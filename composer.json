@@ -1,0 +1,24 @@
+{
+    "name": "ganlvtech/php-simple-cas",
+    "description": "A very simple CAS client. Only used to get user.",
+    "keywords": [
+        "cas"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ganlv",
+            "email": "ganlvtech@qq.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ganlvtech/php-simple-cas/issues",
+        "source": "https://github.com/ganlvtech/php-simple-cas"
+    },
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "PhpSimpleCas\\": "src"
+        }
+    }
+}
