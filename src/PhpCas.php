@@ -94,6 +94,15 @@ class PhpCas
     }
 
     /**
+     *
+     * @return string
+     */
+    public function getTextResponse()
+    {
+        return $this->text_response;
+    }
+
+    /**
      * Get username
      *
      * @param string|null $service service name
