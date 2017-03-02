@@ -70,7 +70,7 @@ class PhpCas
     {
         $ticket = $this->getTicket($key);
         if (!$ticket || !$user = $this->getUser($service, $ticket)) {
-            $this->login();
+            $this->login($service);
             return false;
         }
         return $user;
@@ -112,10 +112,10 @@ class PhpCas
      */
     public function getUser($service = null, $ticket = null)
     {
-        $this->service = $service ?: self::getDefaultService();
+        $service = $service ?: self::getDefaultService();
         $this->ticket = $ticket ?: $this->getTicket();
         $this->text_response = file_get_contents($this->server['service_validate_url'] . '?' . http_build_query(array(
-                'service' => $this->service,
+                'service' => $service,
                 'ticket' => $this->ticket,
             )));
         if (1 !== preg_match('@<cas:user>(.*)</cas:user>@', $this->text_response, $matches)) {
