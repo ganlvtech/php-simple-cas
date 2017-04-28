@@ -9,9 +9,13 @@ if (isset($_GET['logout'])) {
     $phpCas->logout();
 }
 
-$user = $phpCas->getUserOrRedirect();
-// $user = $phpCas->getUserOrRedirect(null, 'ticket', 5);
-$ticket = $phpCas->getTicket();
-var_dump($user);
-var_dump($ticket);
+if (isset($_GET['login'])) {
+    $phpCas->forceAuthentication();
+}
 
+$auth = $phpCas->checkAuthentication();
+if ($auth) {
+    echo $phpCas->getUser();
+} else {
+    echo 'Guest mode';
+}
